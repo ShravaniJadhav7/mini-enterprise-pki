@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+OUT="$BASE_DIR/lab-output/encryption"
+LOG="$BASE_DIR/lab-output/logs/security-audit.log"
+mkdir -p "$OUT"
+echo "Confidential enterprise security lab message." > "$OUT/secret.txt"
+echo "[1/2] Encrypting with AES-256-CBC..."
+echo "Use a temporary lab password when prompted."
+openssl enc -aes-256-cbc -salt -in "$OUT/secret.txt" -out "$OUT/secret.enc"
+echo "$(date '+%Y-%m-%d %H:%M:%S') FILE_ENCRYPTED secret.txt" >> "$LOG"
+echo "[2/2] Decrypting..."
+openssl enc -d -aes-256-cbc -in "$OUT/secret.enc" -out "$OUT/decrypted.txt"
+echo "$(date '+%Y-%m-%d %H:%M:%S') FILE_DECRYPTED secret.enc" >> "$LOG"
+cat "$OUT/decrypted.txt"
