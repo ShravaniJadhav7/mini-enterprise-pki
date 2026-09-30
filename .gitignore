@@ -1,0 +1,10 @@
+lab-output/
+*.key
+*.pem
+*.csr
+*.srl
+*.enc
+.vscode/
+.idea/
+*.swp
+.DS_Store
